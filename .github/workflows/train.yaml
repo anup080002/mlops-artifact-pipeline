@@ -1,0 +1,15 @@
+name: train
+on: [push]
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4        # clone repo
+    - uses: actions/setup-python@v5
+      with: {python-version: '3.11'}
+    - run: pip install -r requirements.txt
+    - run: python src/train.py
+    - uses: actions/upload-artifact@v4
+      with:
+        name: model
+        path: artifacts/model_train.pkl

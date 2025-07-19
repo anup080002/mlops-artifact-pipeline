@@ -1,0 +1,7 @@
+{
+  "C": 1.0,
+  "solver": "lbfgs",
+  "max_iter": 250,
+  "test_size": 0.2,
+  "random_state": 42
+}
