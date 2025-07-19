@@ -1,0 +1,15 @@
+name: tests
+on: [push]
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with: {python-version: '3.11'}
+    - run: pip install -r requirements.txt
+    - name: Add src to PYTHONPATH
+      run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
+    - name: Sanity-check import
+      run: python -c "import importlib, sys; print('sys.path:', sys.path[:3]); import src.utils, pathlib, os; print('OK - imported', src.utils)"
+    - run: pytest -v
