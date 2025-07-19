@@ -3,7 +3,7 @@ from sklearn.datasets import load_digits
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from utils import load_config
+from .utils import load_config
 
 CFG = load_config()
 X, y = load_digits(return_X_y=True)

@@ -1,6 +1,6 @@
 import joblib, json
 from sklearn.datasets import load_digits
-from utils import load_config
+from .utils import load_config
 
 CFG = load_config()
 model = joblib.load("artifacts/model_train.pkl")
