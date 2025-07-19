@@ -7,18 +7,24 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
-      with: {python-version: '3.11'}
+      with:
+        python-version: '3.11'
     - run: pip install -r requirements.txt
+    - name: Add repo root to PYTHONPATH
+      run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
     - run: pytest -v
 
   train:
-    needs: test                        # ------ job dependency
+    needs: test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4        # gets same code rev as test
+    - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
-      with: {python-version: '3.11'}
+      with:
+        python-version: '3.11'
     - run: pip install -r requirements.txt
+    - name: Add repo root to PYTHONPATH
+      run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
     - run: python src/train.py
     - uses: actions/upload-artifact@v4
       with:
@@ -26,15 +32,18 @@ jobs:
         path: artifacts/model_train.pkl
 
   inference:
-    needs: train                       # ------ job dependency
+    needs: train
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-python@v5
-      with: {python-version: '3.11'}
+      with:
+        python-version: '3.11'
     - uses: actions/download-artifact@v4
       with:
         name: model
         path: artifacts
     - run: pip install -r requirements.txt
+    - name: Add repo root to PYTHONPATH
+      run: echo "PYTHONPATH=$PYTHONPATH:$(pwd)" >> $GITHUB_ENV
     - run: python src/inference.py
